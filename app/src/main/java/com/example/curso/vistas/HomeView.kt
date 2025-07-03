@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 import com.example.curso.componentes.BotonGenerico
 import com.example.curso.componentes.TituloBar
 import com.example.curso.componentes.TituloView
@@ -21,7 +21,7 @@ import com.example.curso.componentes.TituloView
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 
-fun HomeView() {
+fun HomeView(navcontroller: NavController) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -33,12 +33,12 @@ fun HomeView() {
                 )
         }
     ) {
-        ContenidoHomeView()
+        ContenidoHomeView(navcontroller)
     }
 }
 
 @Composable
-fun ContenidoHomeView() {
+fun ContenidoHomeView(navcontroller: NavController) {
    Column(
        modifier = Modifier.fillMaxSize(),
        verticalArrangement = Arrangement.Center,
@@ -50,7 +50,8 @@ fun ContenidoHomeView() {
            backColor = Color.White,
            colorText = Color.Red)
        {
-           println("Boton de detalles presionado")
+           //println("Boton de detalles presionado")
+           navcontroller.navigate("detalles")
        }
    }
 }
