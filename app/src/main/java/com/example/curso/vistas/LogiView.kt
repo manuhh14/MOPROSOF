@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.curso.componentes.BotonGenerico
 import com.example.curso.componentes.Espacio
 import com.example.curso.componentes.TituloBar
@@ -30,7 +31,7 @@ import com.example.curso.componentes.TituloView
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginView() {
+fun LoginView(navController: NavController, onLoginsuccess: () -> Unit) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -41,7 +42,11 @@ fun LoginView() {
 
             )
         }
-    ) { }
+    ) {
+        ContenidoLoginView {
+            navController.navigate("ListaAlumnos")
+        }
+    }
 }
 
 @Composable

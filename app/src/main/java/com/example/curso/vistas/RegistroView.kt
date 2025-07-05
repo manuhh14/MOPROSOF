@@ -3,6 +3,7 @@ package com.example.curso.vistas
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,17 +29,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.curso.componentes.BotonGenerico
 import com.example.curso.componentes.BotonIcono
 import com.example.curso.componentes.Espacio
 import com.example.curso.componentes.TituloBar
 import com.example.curso.componentes.TituloView
+import com.example.curso.modelos.Alumno
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview(showBackground = true, showSystemUi = true, device = Devices.PIXEL)
 @Composable
-fun RegistroView(){
+fun RegistroView(navController: NavController,alumnos: MutableList<Alumno>){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -56,13 +58,18 @@ fun RegistroView(){
             )
         }
     ) { paddingValues ->
-
+        ContenidoRegistroView(paddingValues,navController,alumnos)
     }
 }
 
 
 @Composable
-fun ContenidoRegistroView() {
+fun ContenidoRegistroView(
+    paddingValues: PaddingValues,
+    navController: NavController,
+    alumnos: MutableList<Alumno>
+) {
+
     var nombre by remember { mutableStateOf("") }
     var edad by remember { mutableStateOf("") }
     var carrera by remember { mutableStateOf("") }
@@ -100,12 +107,18 @@ fun ContenidoRegistroView() {
         Espacio()
         BotonGenerico(
             nombre= "Registrar",
-            backColor = Color.Blue,
-            colorText = Color.White
+            backColor = Color.White,
+            colorText = Color.Red
         ) {
+            val edadInt = edad.toIntOrNull() ?: 0
+            val alumno = Alumno(nombre.trim(), edadInt, carrera.trim())
+            alumnos.add(alumno)
+
             nombre = ""
             edad= ""
             carrera = ""
+
+            navController.popBackStack()
         }
     }
 }
