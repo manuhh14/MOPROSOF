@@ -35,12 +35,13 @@ import com.example.curso.componentes.BotonIcono
 import com.example.curso.componentes.Espacio
 import com.example.curso.componentes.TituloBar
 import com.example.curso.componentes.TituloView
+import com.example.curso.data.AlumnoViewModel
 import com.example.curso.modelos.Alumno
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun RegistroView(navController: NavController,alumnos: MutableList<Alumno>){
+fun RegistroView(navController: NavController, viewModel: AlumnoViewModel){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -58,7 +59,7 @@ fun RegistroView(navController: NavController,alumnos: MutableList<Alumno>){
             )
         }
     ) { paddingValues ->
-        ContenidoRegistroView(paddingValues,navController,alumnos)
+        ContenidoRegistroView(paddingValues,navController,viewModel)
     }
 }
 
@@ -67,7 +68,7 @@ fun RegistroView(navController: NavController,alumnos: MutableList<Alumno>){
 fun ContenidoRegistroView(
     paddingValues: PaddingValues,
     navController: NavController,
-    alumnos: MutableList<Alumno>
+    viewModel: AlumnoViewModel
 ) {
 
     var nombre by remember { mutableStateOf("") }
@@ -111,14 +112,18 @@ fun ContenidoRegistroView(
             colorText = Color.Red
         ) {
             val edadInt = edad.toIntOrNull() ?: 0
-            val alumno = Alumno(nombre.trim(), edadInt, carrera.trim())
-            alumnos.add(alumno)
+            val alumno = Alumno(id = 0,
+                nombre.trim(),
+                edadInt,
+                carrera.trim())
 
-            nombre = ""
-            edad= ""
-            carrera = ""
+            viewModel.insertarAlumno(alumno){
+                nombre = ""
+                edad= ""
+                carrera = ""
 
-            navController.popBackStack()
+                navController.popBackStack()
+            }
         }
     }
 }
